@@ -117,8 +117,8 @@ export const NinePanel = (props: { path: string; name: string; input_width: numb
   return (
     <Panel
       style={{
-        width: px(global_width),
-        height: px(global_height),
+        width: px(global_width + 1),
+        height: px(global_height + 1),
         flowChildren:"right-wrap"
       }}
       className={`ReactSlicedImage-root ${props.className}`}
