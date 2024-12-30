@@ -6,26 +6,27 @@ const px = (v: number) => `${v}px`;
 const p = (v: number) => `${v}%`;
 const tosrc = (name: string) => `file://{images}/${name}.png`;
 
-export const NinePanel = (props: { path: string; name: string; input_width: number; intput_height: number; scale?: number,className?:string,children?: React.ReactNode}) => {
-  let { name, path, input_width, intput_height, scale } = props;
+export const NinePanel = (props: { path: string; name: string; input_width: number; intput_height: number; change_width?:number,change_height?:number,className?:string,children?: React.ReactNode}) => {
+  let { name, path, input_width, intput_height, change_width,change_height } = props;
 
-  const d_scale = useMemo(() => scale ?? 1, [scale]);
+  const h_scale = useMemo(() => change_height ?? 1, [change_height]);
+  const w_scale = useMemo(() => change_width ?? 1, [change_width]);
 
   //横向宽度实际宽度
   const global_width = useMemo(()=>{
      const data_jiaoluo = slice9data[name as keyof typeof slice9data]?.[1]
      const data_heng = slice9data[name as keyof typeof slice9data]?.[2]
-     const width = data_jiaoluo.width * input_width + data_heng.width * input_width * d_scale + data_jiaoluo.width * input_width
+     const width = data_jiaoluo.width * input_width + data_heng.width * input_width * w_scale + data_jiaoluo.width * input_width
      return width
-  },[d_scale])
+  },[w_scale])
 
   //实际高度
     const global_height = useMemo(()=>{
         const data_jiaoluo = slice9data[name as keyof typeof slice9data]?.[1]
         const data_shu = slice9data[name as keyof typeof slice9data]?.[4]
-        const height = data_jiaoluo.height * intput_height + data_shu.height * intput_height * d_scale + data_jiaoluo.height * intput_height
+        const height = data_jiaoluo.height * intput_height + data_shu.height * intput_height * h_scale + data_jiaoluo.height * intput_height
         return height
-    },[d_scale])
+    },[h_scale])
 
   //竖向宽度
 
@@ -42,8 +43,8 @@ export const NinePanel = (props: { path: string; name: string; input_width: numb
 
     const { x, y, width, height, x_px, y_px, width_px, height_px } = regionData;
 
-    const new_input_width = input_width * d_scale;
-    const new_intput_height = intput_height * d_scale;
+    const new_input_width = input_width * w_scale;
+    const new_intput_height = intput_height * h_scale;
 
     let finalWidth = width * new_input_width;
     let finalHeight = height * new_intput_height;
@@ -117,8 +118,8 @@ export const NinePanel = (props: { path: string; name: string; input_width: numb
   return (
     <Panel
       style={{
-        width: px(global_width + 1),
-        height: px(global_height + 1),
+        width: px(global_width + 1 * w_scale),
+        height: px(global_height + 1 * h_scale),
         flowChildren:"right-wrap"
       }}
       className={`ReactSlicedImage-root ${props.className}`}
