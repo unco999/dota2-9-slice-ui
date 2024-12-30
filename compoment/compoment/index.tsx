@@ -6,7 +6,7 @@ const px = (v: number) => `${v}px`;
 const p = (v: number) => `${v}%`;
 const tosrc = (name: string) => `file://{images}/${name}.png`;
 
-export const Slice9Image = (props: { path: string; name: string; input_width: number; intput_height: number; scale?: number,className?:string }) => {
+export const NinePanel = (props: { path: string; name: string; input_width: number; intput_height: number; scale?: number,className?:string,children?: React.ReactNode}) => {
   let { name, path, input_width, intput_height, scale } = props;
 
   const d_scale = useMemo(() => scale ?? 1, [scale]);
@@ -47,11 +47,6 @@ export const Slice9Image = (props: { path: string; name: string; input_width: nu
 
     let finalWidth = width * new_input_width;
     let finalHeight = height * new_intput_height;
-
-    const centerOffsetX = new_input_width - input_width
-    const centerOffsetY = new_intput_height - intput_height
-    let positionX = x * new_input_width;
-    let positionY = y * new_intput_height;
 
     // 基础样式，所有区域共享
     const baseStyle = {
@@ -130,6 +125,7 @@ export const Slice9Image = (props: { path: string; name: string; input_width: nu
     >
       {/* 渲染九个区域 */}
       {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => (
+        index === 5 ? <Panel key={index} style={{ ...regionStyles(name, index) }}>{props.children}</Panel> :
         <Panel key={index} style={{ ...regionStyles(name, index) }} />
       ))}
     </Panel>
